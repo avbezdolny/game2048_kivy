@@ -1,0 +1,324 @@
+#:import get_color_from_hex kivy.utils.get_color_from_hex
+#:set padding 20
+
+
+FloatLayout:
+    canvas.before:
+        Color:
+            rgb: get_color_from_hex('#eeeeee')
+        Rectangle:
+            size: self.size
+            pos: self.pos
+            source: 'data/background.png'
+    
+    Board:
+        id: board
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        size_hint: (None, None)
+        center: root.center
+        size: [min(root.width, root.height) - padding*2] * 2
+        canvas:
+            Color:
+                rgba: get_color_from_hex('#bdbdbd00')
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        
+        GridLayout:
+            pos: board.pos
+            size: board.size
+            spacing: [board.width/40]
+            cols: 4
+            
+            Cell:
+            Cell:
+            Cell:
+            Cell:
+            Cell:
+            Cell:
+            Cell:
+            Cell:
+            Cell:
+            Cell:
+            Cell:
+            Cell:
+            Cell:
+            Cell:
+            Cell:
+            Cell:
+    
+    Label:
+        pos: [board.x + board.width/2 - self.width/2, board.y + board.height + board.width/16]
+        size_hint: (None, None)
+        size: self.texture_size
+        halign: 'center'
+        valign: 'bottom'
+        color: get_color_from_hex('#424242')
+        font_size: board.width/32
+        font_name: 'Rubik.ttf'
+        text: 'Join the numbers\nand get to the 2048 tile or more :)'
+    
+    Label:
+        pos: [board.x + board.width/2 - self.width/2, board.y - self.height - board.width/16]
+        size_hint: (None, None)
+        size: self.texture_size
+        halign: 'center'
+        valign: 'top'
+        color: get_color_from_hex('#424242')
+        font_size: board.width/32
+        font_name: 'Rubik.ttf'
+        text: '2 + 2 = 4 etc.\nstep ' + str(app.step)
+    
+    Label:
+        pos: [board.x + board.width/2 - self.width/2, board.y + board.height + board.width/16 + board.width/36/12]
+        size_hint: (None, None)
+        size: self.texture_size
+        halign: 'center'
+        valign: 'bottom'
+        color: get_color_from_hex('#cccccc')
+        font_size: board.width/32
+        font_name: 'Rubik.ttf'
+        text: 'Join the numbers\nand get to the 2048 tile or more :)'
+    
+    Label:
+        pos: [board.x + board.width/2 - self.width/2, board.y - self.height - board.width/16 + board.width/36/12]
+        size_hint: (None, None)
+        size: self.texture_size
+        halign: 'center'
+        valign: 'top'
+        color: get_color_from_hex('#cccccc')
+        font_size: board.width/32
+        font_name: 'Rubik.ttf'
+        text: '2 + 2 = 4 etc.\nstep ' + str(app.step)
+    
+    Label:
+        pos: [padding, padding]
+        size_hint: (None, None)
+        size: self.texture_size
+        halign: 'left'
+        valign: 'bottom'
+        color: get_color_from_hex('#424242')
+        font_size: board.width/22
+        font_name: 'Rubik.ttf'
+        markup: True
+        text: 'best\n[size=' + str(int(board.width/14)) + ']' + str(app.best) + '[/size]'
+    
+    Label:
+        pos: [root.width-self.width-padding, padding]
+        size_hint: (None, None)
+        size: self.texture_size
+        halign: 'right'
+        valign: 'bottom'
+        color: get_color_from_hex('#424242')
+        font_size: board.width/22
+        font_name: 'Rubik.ttf'
+        markup: True
+        text: 'score\n[size=' + str(int(board.width/14)) + ']' + str(app.score) + '[/size]'
+    
+    Label:
+        pos: [padding, padding + board.width/20/12]
+        size_hint: (None, None)
+        size: self.texture_size
+        halign: 'left'
+        valign: 'bottom'
+        color: get_color_from_hex('#fafafa')
+        font_size: board.width/22
+        font_name: 'Rubik.ttf'
+        markup: True
+        text: 'best\n[size=' + str(int(board.width/14)) + ']' + str(app.best) + '[/size]'
+    
+    Label:
+        pos: [root.width-self.width-padding, padding + board.width/20/12]
+        size_hint: (None, None)
+        size: self.texture_size
+        halign: 'right'
+        valign: 'bottom'
+        color: get_color_from_hex('#fafafa')
+        font_size: board.width/22
+        font_name: 'Rubik.ttf'
+        markup: True
+        text: 'score\n[size=' + str(int(board.width/14)) + ']' + str(app.score) + '[/size]'
+    
+    Btn:
+        id: info_btn
+        pos: [padding, root.height-self.height-padding]
+        size_hint: (None, None)
+        size: [app.cell_size[0], app.cell_size[1]/2.15]
+        text: 'info'
+        on_release: app.view_info.open()
+    
+    Btn:
+        id: new_btn
+        pos: [root.width-self.width-padding, root.height-self.height-padding]
+        size_hint: (None, None)
+        size: [app.cell_size[0], app.cell_size[1]/2.15]
+        text: 'game'
+        on_release: app.view_new.open()
+    
+    SoundBtn:
+        canvas.before:
+            Color:
+                rgba: self.shadow_color
+            Ellipse:
+                size: [self.width + 10, self.height + 10]
+                pos: [self.x - 5, self.y - 5]
+        
+        source: 'data/sound_on.png' if app.is_sound else 'data/sound_off.png'
+        allow_stretch: True
+        size_hint: (None, None)
+        size: [app.cell_size[1]/2.15] * 2
+        pos: [root.width/2-self.width/2, root.height-self.height-padding if root.height > root.width else root.height + padding]
+        
+        on_press:
+            self.shadow_color = get_color_from_hex('#42424280')
+        on_release:
+            self.shadow_color = get_color_from_hex('#42424200')
+            app.is_sound = (False if app.is_sound else True)
+        on_touch_up:
+            self.shadow_color = get_color_from_hex('#42424200')
+
+
+<Cell>:
+    source: 'data/cell.png'
+    canvas.before:
+        Color:
+            rgb: get_color_from_hex('#fafafa')
+        BorderImage:
+            size: self.size
+            pos: self.pos
+            source: root.source
+            auto_scale: 'both_lower'
+            border: (16, 16, 16, 16)
+    opacity: 0.5
+
+
+<Tile>:
+    source: 'data/' + str(root.number) + '.png'
+    size_hint: (None, None)
+    size: app.cell_size
+    canvas.before:
+        Color:
+            rgb: get_color_from_hex('#fafafa')
+        BorderImage:
+            size: self.size
+            pos: self.pos
+            source: root.source
+            auto_scale: 'both_lower'
+            border: (16, 16, 16, 16)
+    
+    Label:
+        pos: (root.x + (root.width - self.width)/2, root.y + (root.height - self.height)/2 + self.height/20)
+        size_hint: (None, None)
+        size: self.texture_size
+        color: get_color_from_hex(root.shadow_colors[root.number])
+        font_size: 0.35  *  root.width if (root.number < 128) else 0.3 * root.width if (root.number < 1024) else 0.25  *  root.width if (root.number < 16384) else 0.2 * root.width if (root.number < 131072) else 0.15  *  root.width
+        font_name: 'Rubik.ttf'
+        text: str(root.number)
+    
+    Label:
+        pos: (root.x + (root.width - self.width)/2, root.y + (root.height - self.height)/2)
+        size_hint: (None, None)
+        size: self.texture_size
+        color: get_color_from_hex('#fafafa')
+        font_size: 0.35  *  root.width if (root.number < 128) else 0.3 * root.width if (root.number < 1024) else 0.25  *  root.width if (root.number < 16384) else 0.2 * root.width if (root.number < 131072) else 0.15  *  root.width
+        font_name: 'Rubik.ttf'
+        text: str(root.number)
+
+
+<Btn>:
+    source: 'data/button_normal.png'
+    offset: 0 if self.source == 'data/button_normal.png' else self.height/32
+    canvas.before:
+        Color:
+            rgb: get_color_from_hex('#bdbdbd')
+        BorderImage:
+            size: self.size
+            pos: self.pos
+            source: root.source
+            auto_scale: 'both_lower'
+            border: (16, 16, 16, 16)
+    
+    on_press:
+        self.source = 'data/button_press.png'
+        if app.is_sound and app.sound_click: app.sound_click.play()
+    on_release:
+        self.source = 'data/button_normal.png'
+    on_touch_up:
+        self.source = 'data/button_normal.png'
+    
+    Label:
+        pos: (root.x + (root.width - self.width)/2, root.y + (root.height - self.height)/2 + self.height/16 - root.offset)
+        size_hint: (None, None)
+        size: self.texture_size
+        color: get_color_from_hex('#424242') if root.offset == 0 else get_color_from_hex('#333333')
+        font_size: root.height/2.25
+        font_name: 'Rubik.ttf'
+        text: root.text
+    
+    Label:
+        pos: (root.x + (root.width - self.width)/2, root.y + (root.height - self.height)/2 - root.offset)
+        size_hint: (None, None)
+        size: self.texture_size
+        color: get_color_from_hex('#fafafa')
+        font_size: root.height/2.25
+        font_name: 'Rubik.ttf'
+        text: root.text
+
+
+<ViewChoice>:
+    BoxLayout:
+        orientation: 'vertical'
+        pos: root.pos
+        size: root.size
+        padding: [10, 10, 10, 10]
+
+        Label:
+            size_hint: (1, 0.85)
+            text_size: self.size
+            valign: 'middle'
+            halign: 'center'
+            text: root.text
+            font_name: 'Rubik.ttf'
+            color: get_color_from_hex('#fafafa')
+            font_size: min(root.width, root.height)/14
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: (1, 0.15)
+            spacing: 10
+
+            Btn:
+                id: yes_btn
+                size_hint: (0.5, 1)
+                text: 'Yes'
+                on_release: root.parent.dismiss()
+
+            Btn:
+                id: no_btn
+                size_hint: (0.5, 1)
+                text: 'No'
+                on_release: root.parent.dismiss()
+
+
+<ViewInfo>:
+    BoxLayout:
+        orientation: 'vertical'
+        pos: root.pos
+        size: root.size
+        padding: [10, 10, 10, 10]
+
+        Label:
+            size_hint: (1, 0.85)
+            text_size: self.size
+            valign: 'middle'
+            halign: 'center'
+            text: root.text
+            markup: True
+            font_name: 'Rubik.ttf'
+            color: get_color_from_hex('#fafafa')
+            font_size: min(root.width, root.height)/14
+
+        Btn:
+            size_hint: (1, 0.15)
+            text: 'OK'
+            on_release: root.parent.dismiss()
