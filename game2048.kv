@@ -1,8 +1,8 @@
 #:import get_color_from_hex kivy.utils.get_color_from_hex
-#:set padding 20
 
 
 FloatLayout:
+    padding: min(root.width, root.height)/32
     canvas.before:
         Color:
             rgb: get_color_from_hex('#eeeeee')
@@ -16,7 +16,7 @@ FloatLayout:
         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
         size_hint: (None, None)
         center: root.center
-        size: [min(root.width, root.height) - padding*2] * 2
+        size: [min(root.width, root.height) - root.padding*2] * 2
         canvas:
             Color:
                 rgba: get_color_from_hex('#bdbdbd00')
@@ -70,7 +70,7 @@ FloatLayout:
         text: '2 + 2 = 4 etc.\nstep ' + str(app.step)
     
     Label:
-        pos: [board.x + board.width/2 - self.width/2, board.y + board.height + board.width/16 + board.width/36/12]
+        pos: [board.x + board.width/2 - self.width/2, board.y + board.height + board.width/16 + 1]
         size_hint: (None, None)
         size: self.texture_size
         halign: 'center'
@@ -81,7 +81,7 @@ FloatLayout:
         text: 'Join the numbers\nand get to the 2048 tile or more :)'
     
     Label:
-        pos: [board.x + board.width/2 - self.width/2, board.y - self.height - board.width/16 + board.width/36/12]
+        pos: [board.x + board.width/2 - self.width/2, board.y - self.height - board.width/16 + 1]
         size_hint: (None, None)
         size: self.texture_size
         halign: 'center'
@@ -92,48 +92,56 @@ FloatLayout:
         text: '2 + 2 = 4 etc.\nstep ' + str(app.step)
     
     Label:
-        pos: [padding, padding]
+        pos: [root.padding, root.padding]
         size_hint: (None, None)
         size: self.texture_size
         halign: 'left'
         valign: 'bottom'
         color: get_color_from_hex('#424242')
+        outline_color: get_color_from_hex('#424242')
+        outline_width: 1
         font_size: board.width/22
         font_name: 'Rubik.ttf'
         markup: True
         text: 'best\n[size=' + str(int(board.width/14)) + ']' + str(app.best) + '[/size]'
     
     Label:
-        pos: [root.width-self.width-padding, padding]
+        pos: [root.width-self.width-root.padding, root.padding]
         size_hint: (None, None)
         size: self.texture_size
         halign: 'right'
         valign: 'bottom'
         color: get_color_from_hex('#424242')
+        outline_color: get_color_from_hex('#424242')
+        outline_width: 1
         font_size: board.width/22
         font_name: 'Rubik.ttf'
         markup: True
         text: 'score\n[size=' + str(int(board.width/14)) + ']' + str(app.score) + '[/size]'
     
     Label:
-        pos: [padding, padding + board.width/20/12]
+        pos: [root.padding, root.padding + board.width/20/12]
         size_hint: (None, None)
         size: self.texture_size
         halign: 'left'
         valign: 'bottom'
         color: get_color_from_hex('#fafafa')
+        outline_color: get_color_from_hex('#424242')
+        outline_width: 1
         font_size: board.width/22
         font_name: 'Rubik.ttf'
         markup: True
         text: 'best\n[size=' + str(int(board.width/14)) + ']' + str(app.best) + '[/size]'
     
     Label:
-        pos: [root.width-self.width-padding, padding + board.width/20/12]
+        pos: [root.width-self.width-root.padding, root.padding + board.width/20/12]
         size_hint: (None, None)
         size: self.texture_size
         halign: 'right'
         valign: 'bottom'
         color: get_color_from_hex('#fafafa')
+        outline_color: get_color_from_hex('#424242')
+        outline_width: 1
         font_size: board.width/22
         font_name: 'Rubik.ttf'
         markup: True
@@ -141,7 +149,7 @@ FloatLayout:
     
     Btn:
         id: info_btn
-        pos: [padding, root.height-self.height-padding]
+        pos: [root.padding, root.height-self.height-root.padding]
         size_hint: (None, None)
         size: [app.cell_size[0], app.cell_size[1]/2.15]
         text: 'info'
@@ -149,7 +157,7 @@ FloatLayout:
     
     Btn:
         id: new_btn
-        pos: [root.width-self.width-padding, root.height-self.height-padding]
+        pos: [root.width-self.width-root.padding, root.height-self.height-root.padding]
         size_hint: (None, None)
         size: [app.cell_size[0], app.cell_size[1]/2.15]
         text: 'game'
@@ -167,7 +175,7 @@ FloatLayout:
         allow_stretch: True
         size_hint: (None, None)
         size: [app.cell_size[1]/2.15] * 2
-        pos: [root.width/2-self.width/2, root.height-self.height-padding if root.height > root.width else root.height + padding]
+        pos: [root.width/2-self.width/2, root.height-self.height-root.padding if root.height > root.width else root.height + root.padding]
         
         on_press:
             self.shadow_color = get_color_from_hex('#42424280')
@@ -207,10 +215,12 @@ FloatLayout:
             border: (16, 16, 16, 16)
     
     Label:
-        pos: (root.x + (root.width - self.width)/2, root.y + (root.height - self.height)/2 + self.height/20)
+        pos: (root.x + (root.width - self.width)/2, root.y + (root.height - self.height)/2 + self.height/24)
         size_hint: (None, None)
         size: self.texture_size
         color: get_color_from_hex(root.shadow_colors[root.number])
+        outline_color: get_color_from_hex(root.shadow_colors[root.number])
+        outline_width: 1
         font_size: 0.35  *  root.width if (root.number < 128) else 0.3 * root.width if (root.number < 1024) else 0.25  *  root.width if (root.number < 16384) else 0.2 * root.width if (root.number < 131072) else 0.15  *  root.width
         font_name: 'Rubik.ttf'
         text: str(root.number)
@@ -220,6 +230,8 @@ FloatLayout:
         size_hint: (None, None)
         size: self.texture_size
         color: get_color_from_hex('#fafafa')
+        outline_color: get_color_from_hex(root.shadow_colors[root.number])
+        outline_width: 1
         font_size: 0.35  *  root.width if (root.number < 128) else 0.3 * root.width if (root.number < 1024) else 0.25  *  root.width if (root.number < 16384) else 0.2 * root.width if (root.number < 131072) else 0.15  *  root.width
         font_name: 'Rubik.ttf'
         text: str(root.number)
@@ -227,7 +239,7 @@ FloatLayout:
 
 <Btn>:
     source: 'data/button_normal.png'
-    offset: 0 if self.source == 'data/button_normal.png' else self.height/32
+    offset: 0 if self.source == 'data/button_normal.png' else self.height/24
     canvas.before:
         Color:
             rgb: get_color_from_hex('#bdbdbd')
@@ -251,6 +263,8 @@ FloatLayout:
         size_hint: (None, None)
         size: self.texture_size
         color: get_color_from_hex('#424242') if root.offset == 0 else get_color_from_hex('#333333')
+        outline_color: get_color_from_hex('#424242') if root.offset == 0 else get_color_from_hex('#333333')
+        outline_width: 1
         font_size: root.height/2.25
         font_name: 'Rubik.ttf'
         text: root.text
@@ -260,6 +274,8 @@ FloatLayout:
         size_hint: (None, None)
         size: self.texture_size
         color: get_color_from_hex('#fafafa')
+        outline_color: get_color_from_hex('#424242') if root.offset == 0 else get_color_from_hex('#333333')
+        outline_width: 1
         font_size: root.height/2.25
         font_name: 'Rubik.ttf'
         text: root.text
@@ -280,6 +296,8 @@ FloatLayout:
             text: root.text
             font_name: 'Rubik.ttf'
             color: get_color_from_hex('#fafafa')
+            outline_color: get_color_from_hex('#000000')
+            outline_width: 1
             font_size: min(root.width, root.height)/14
 
         BoxLayout:
@@ -316,6 +334,8 @@ FloatLayout:
             markup: True
             font_name: 'Rubik.ttf'
             color: get_color_from_hex('#fafafa')
+            outline_color: get_color_from_hex('#000000')
+            outline_width: 1
             font_size: min(root.width, root.height)/14
 
         Btn:

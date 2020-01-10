@@ -89,11 +89,6 @@ class Tile(Widget):
         131072: '#32211d'
     }
 
-    def update_tile_anim(self):
-        self.opacity = 0
-        anim = Animation(opacity=1, duration=0.25, transition='linear')
-        anim.start(self)
-
 
 class Btn(ButtonBehavior, Widget):
     text = StringProperty('btn')
@@ -182,7 +177,7 @@ class Game2048App(App):
 
         # info dialog
         self.view_info = ModalView(size_hint=(None, None), size=[self.board.width, self.board.width * 0.75], auto_dismiss=False)
-        self.view_info.add_widget(ViewInfo(text='[size=' + str(int(min(self.view_info.width, self.view_info.height) / 14)) + ']GAME 2048[/size][size=' + str(int(min(self.view_info.width, self.view_info.height) / 20)) + ']\n\nSwipe to move the tiles. When two tiles with the same number touch, they merge into one. Get to the 2048 tile and reach a high score!\nBased by Gabriele Cirulli original game :)[/size][size=' + str(int(min(self.view_info.width, self.view_info.height) / 30)) + ']\n\n* * *\n(c) Anton Bezdolny, 2019 / ver. 1.0 /[/size]'))
+        self.view_info.add_widget(ViewInfo(text='[size=' + str(int(min(self.view_info.width, self.view_info.height) / 14)) + ']GAME 2048[/size][size=' + str(int(min(self.view_info.width, self.view_info.height) / 20)) + ']\n\nSwipe to move the tiles. When two tiles with the same number touch, they merge into one. Get to the 2048 tile and reach a high score!\nBased by Gabriele Cirulli original game :)[/size][size=' + str(int(min(self.view_info.width, self.view_info.height) / 30)) + ']\n\n* * *\n(c) Anton Bezdolny, 2020 / ver. 1.1 /[/size]'))
 
         # new game dialog
         self.view_new = ModalView(size_hint=(None, None), size=[self.board.width, self.board.width * 0.75], auto_dismiss=False)
@@ -292,7 +287,6 @@ class Game2048App(App):
                 tile = Tile(number=matrix[row][col], number_new=matrix[row][col], pos=self.cell_pos(row, col))
                 self.tiles[row][col] = tile
                 self.board.add_widget(tile)
-                tile.update_tile_anim()
 
         self.savepoint_tiles = self.store.get('savepoint_matrix')['value']
         self.is_sound = self.store.get('is_sound')['value']
@@ -308,7 +302,6 @@ class Game2048App(App):
                 tile = Tile(number=self.savepoint_tiles[row][col], number_new=self.savepoint_tiles[row][col], pos=self.cell_pos(row, col))
                 self.tiles[row][col] = tile
                 self.board.add_widget(tile)
-                tile.update_tile_anim()
 
         self.block = False
 
@@ -353,7 +346,6 @@ class Game2048App(App):
         tile = Tile(number=rnumb, number_new=rnumb, pos=self.cell_pos(row, col))
         self.tiles[row][col] = tile
         self.board.add_widget(tile)
-        tile.update_tile_anim()
 
         # game analyze
         if len(empty_cells) == 1 and self.is_deadlocked():
@@ -418,15 +410,15 @@ class Game2048App(App):
                     if x == row and y == col:
                         continue  # nothing has happened
 
-                    anim = Animation(pos=self.cell_pos(x, y), duration=0.25, transition='linear')
+                    anim = Animation(pos=self.cell_pos(x, y), duration=0.2, transition='linear')
                     anim.start(tile)
-                    if not self.moving: self.moving = True
+                    if not self.moving:
+                        self.moving = True
+                        anim.bind(on_complete=self.after_move)
+                        if self.is_sound and self.sound_move: self.sound_move.play()
             # if no moves
             if not self.moving:
                 self.block = False
-            else:
-                if self.is_sound and self.sound_move: self.sound_move.play()
-                Clock.schedule_once(self.after_move, 0.25)
 
     def after_move(self, *args):
         self.moving = False
@@ -440,8 +432,6 @@ class Game2048App(App):
 
             tile = self.tiles[row][col]
             if tile:
-                if tile.number != tile.number_new:
-                    tile.update_tile_anim()
                 tile.number = tile.number_new
                 tile.check = False
 
@@ -452,13 +442,13 @@ class Game2048App(App):
         for row, col in self.all_cells():
             tile = self.tiles[row][col]
             if tile:
-                anim = Animation(pos=self.cell_pos(row, col), duration=0.25, transition='linear')
+                anim = Animation(pos=self.cell_pos(row, col), duration=0.2, transition='linear')
                 anim.start(tile)
 
         # dialog's
         self.view_exit.size = [self.board.width, self.board.width * 0.75]
         self.view_info.size = [self.board.width, self.board.width * 0.75]
-        self.view_info.children[0].text = '[size=' + str(int(min(self.view_info.width, self.view_info.height) / 14)) + ']GAME 2048[/size][size=' + str(int(min(self.view_info.width, self.view_info.height) / 20)) + ']\n\nSwipe to move the tiles. When two tiles with the same number touch, they merge into one. Get to the 2048 tile and reach a high score!\nBased by Gabriele Cirulli original game :)[/size][size=' + str(int(min(self.view_info.width, self.view_info.height) / 30)) + ']\n\n* * *\n(c) Anton Bezdolny, 2019 / ver. 1.0 /[/size]'
+        self.view_info.children[0].text = '[size=' + str(int(min(self.view_info.width, self.view_info.height) / 14)) + ']GAME 2048[/size][size=' + str(int(min(self.view_info.width, self.view_info.height) / 20)) + ']\n\nSwipe to move the tiles. When two tiles with the same number touch, they merge into one. Get to the 2048 tile and reach a high score!\nBased by Gabriele Cirulli original game :)[/size][size=' + str(int(min(self.view_info.width, self.view_info.height) / 30)) + ']\n\n* * *\n(c) Anton Bezdolny, 2020 / ver. 1.1 /[/size]'
         self.view_new.size = [self.board.width, self.board.width * 0.75]
         self.view_gameover.size = [self.board.width, self.board.width * 0.75]
         self.view_update.size = [self.board.width, self.board.width * 0.75]
