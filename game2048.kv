@@ -191,12 +191,10 @@ FloatLayout:
     canvas.before:
         Color:
             rgb: get_color_from_hex('#fafafa')
-        BorderImage:
+        Rectangle:
             size: self.size
             pos: self.pos
             source: root.source
-            auto_scale: 'both_lower'
-            border: (16, 16, 16, 16)
     opacity: 0.5
 
 
@@ -207,12 +205,10 @@ FloatLayout:
     canvas.before:
         Color:
             rgb: get_color_from_hex('#fafafa')
-        BorderImage:
+        Rectangle:
             size: self.size
             pos: self.pos
             source: root.source
-            auto_scale: 'both_lower'
-            border: (16, 16, 16, 16)
     
     Label:
         pos: (root.x + (root.width - self.width)/2, root.y + (root.height - self.height)/2 + self.height/24)
