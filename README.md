@@ -1,4 +1,4 @@
-![icon](/data/icon.png)
+![icon](game2048.png)
 
 # GAME 2048 🎮
 
