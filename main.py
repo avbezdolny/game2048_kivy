@@ -69,37 +69,37 @@ class Tile(Widget):
     number_new = NumericProperty(2)
     check = BooleanProperty(False)
 
-    shadow_colors = {
-        2: '#c62828',
-        4: '#1565c0',
-        8: '#2e7d32',
-        16: '#ff8f00',
-        32: '#ad1457',
-        64: '#283593',
-        128: '#00695c',
-        256: '#ef6c00',
-        512: '#931212',
-        1024: '#0b3b86',
-        2048: '#154819',
-        4096: '#d84315',
-        8192: '#6a093d',
-        16384: '#131a5f',
-        32768: '#00342b',
-        65536: '#be3a11',
-        131072: '#32211d'
+    colors = {
+        2: '#e53935',
+        4: '#1e88e5',
+        8: '#43a047',
+        16: '#fdd835',
+        32: '#d81b60',
+        64: '#039be5',
+        128: '#66bb6a',
+        256: '#ffb300',
+        512: '#e53935',
+        1024: '#1e88e5',
+        2048: '#43a047',
+        4096: '#fdd835',
+        8192: '#d81b60',
+        16384: '#039be5',
+        32768: '#66bb6a',
+        65536: '#ffb300',
+        131072: '#8d6e63'
     }
 
 
 class Btn(ButtonBehavior, Widget):
     text = StringProperty('btn')
+    color = ListProperty(get_color_from_hex('#26a69a40'))
+    text_color = ListProperty(get_color_from_hex('#26a69a'))
 
     def __init__(self, **kwargs):
         super(Btn, self).__init__(**kwargs)
 
 
 class SoundBtn(ButtonBehavior, Image):
-    shadow_color = ListProperty(get_color_from_hex('#42424200'))
-
     def __init__(self, **kwargs):
         super(SoundBtn, self).__init__(**kwargs)
 
@@ -113,10 +113,10 @@ class ViewInfo(Widget):
 
 
 class Game2048App(App):
+    Window.clearcolor = get_color_from_hex('#000000')
     if platform in ['win', 'linux', 'mac']:
         icon = 'data/icon.png'
         title = '2048'
-        #Window.clearcolor = get_color_from_hex('#616161')
         Window.size = (480, 800)
         Window.left = 100
         Window.top = 100
@@ -168,38 +168,39 @@ class Game2048App(App):
         # sounds
         self.sound_click = SoundLoader.load('click.wav')
         self.sound_popup = SoundLoader.load('popup.wav')
-        self.sound_move  = SoundLoader.load('click.wav')
+        self.sound_move  = SoundLoader.load('move.wav')
 
         # exit dialog
-        self.view_exit = ModalView(size_hint=(None, None), size=[self.board.width, self.board.width * 0.75], auto_dismiss=False)
+        self.view_exit = ModalView(size_hint=(None, None), size=[self.board.width, self.board.width * 0.75], auto_dismiss=False, background = 'data/background.png')
         self.view_exit.add_widget(ViewChoice(text='Exit the game?'))
         self.view_exit.children[0].ids.yes_btn.bind(on_release=self.stop)
 
         # info dialog
-        self.view_info = ModalView(size_hint=(None, None), size=[self.board.width, self.board.width * 0.75], auto_dismiss=False)
-        self.view_info.add_widget(ViewInfo(text='[size=' + str(int(min(self.view_info.width, self.view_info.height) / 14)) + ']GAME 2048[/size][size=' + str(int(min(self.view_info.width, self.view_info.height) / 20)) + ']\n\nSwipe to move the tiles. When two tiles with the same number touch, they merge into one. Get to the 2048 tile and reach a high score!\nBased by Gabriele Cirulli original game :)[/size][size=' + str(int(min(self.view_info.width, self.view_info.height) / 30)) + ']\n\n* * *\n(c) Anton Bezdolny, 2020 / ver. 1.1 /[/size]'))
+        self.view_info = ModalView(size_hint=(None, None), size=[self.board.width, self.board.width * 0.75], auto_dismiss=False, background = 'data/background.png')
+        self.view_info.add_widget(ViewInfo(text='[size=' + str(int(min(self.view_info.width, self.view_info.height) / 14)) + ']GAME 2048[/size][size=' + str(int(min(self.view_info.width, self.view_info.height) / 20)) + ']\n\nSwipe to move the tiles. When two tiles with the same number touch, they merge into one. Get to the 2048 tile and reach a high score!\nBased by Gabriele Cirulli original game :)[/size][size=' + str(int(min(self.view_info.width, self.view_info.height) / 30)) + ']\n\n* * *\n(c) Anton Bezdolny, 2020 / ver. 2.0 /[/size]'))
 
         # new game dialog
-        self.view_new = ModalView(size_hint=(None, None), size=[self.board.width, self.board.width * 0.75], auto_dismiss=False)
+        self.view_new = ModalView(size_hint=(None, None), size=[self.board.width, self.board.width * 0.75], auto_dismiss=False, background = 'data/background.png')
         self.view_new.add_widget(ViewChoice(text='Start new game?'))
         self.view_new.children[0].ids.yes_btn.bind(on_release=self.new_game)
 
         # game over dialog
-        self.view_gameover = ModalView(size_hint=(None, None), size=[self.board.width, self.board.width * 0.75], auto_dismiss=False)
+        self.view_gameover = ModalView(size_hint=(None, None), size=[self.board.width, self.board.width * 0.75], auto_dismiss=False, background = 'data/background.png')
         self.view_gameover.add_widget(ViewInfo(text='* GAME OVER *'))
 
         # update savepoint dialog
-        self.view_update = ModalView(size_hint=(None, None), size=[self.board.width, self.board.width * 0.75], auto_dismiss=False)
+        self.view_update = ModalView(size_hint=(None, None), size=[self.board.width, self.board.width * 0.75], auto_dismiss=False, background = 'data/background.png')
         self.view_update.add_widget(ViewInfo())
 
         # load savepoint dialog
-        self.view_savepoint = ModalView(size_hint=(None, None), size=[self.board.width, self.board.width * 0.75], auto_dismiss=False)
+        self.view_savepoint = ModalView(size_hint=(None, None), size=[self.board.width, self.board.width * 0.75], auto_dismiss=False, background = 'data/background.png')
         self.view_savepoint.add_widget(ViewChoice())
         self.view_savepoint.children[0].ids.yes_btn.bind(on_release=self.load_savepoint)
         self.view_savepoint.children[0].ids.no_btn.bind(on_release=self.pass_savepoint)
 
         # bind's
         Window.bind(on_key_down=self.on_key_down)
+        if platform in ['win', 'linux', 'mac']: Window.bind(on_request_close=self.on_request_close)
         self.board.bind(pos=Clock.schedule_once(self.resize, 0.150))
 
         # game start
@@ -253,8 +254,14 @@ class Game2048App(App):
         if key in self.key_vectors and not self.block:
             self.move(*self.key_vectors[key])
         elif key in [27, 4]:  # ESC and BACK_BUTTON
+            if self.is_sound and self.sound_popup: self.sound_popup.play()
             self.view_exit.open()
             return True
+
+    def on_request_close(self, *args):
+        if self.is_sound and self.sound_popup: self.sound_popup.play()
+        self.view_exit.open()
+        return True
 
     def save_data(self):
         matrix = [[None for i in range(4)] for j in range(4)]
@@ -448,7 +455,7 @@ class Game2048App(App):
         # dialog's
         self.view_exit.size = [self.board.width, self.board.width * 0.75]
         self.view_info.size = [self.board.width, self.board.width * 0.75]
-        self.view_info.children[0].text = '[size=' + str(int(min(self.view_info.width, self.view_info.height) / 14)) + ']GAME 2048[/size][size=' + str(int(min(self.view_info.width, self.view_info.height) / 20)) + ']\n\nSwipe to move the tiles. When two tiles with the same number touch, they merge into one. Get to the 2048 tile and reach a high score!\nBased by Gabriele Cirulli original game :)[/size][size=' + str(int(min(self.view_info.width, self.view_info.height) / 30)) + ']\n\n* * *\n(c) Anton Bezdolny, 2020 / ver. 1.1 /[/size]'
+        self.view_info.children[0].text = '[size=' + str(int(min(self.view_info.width, self.view_info.height) / 14)) + ']GAME 2048[/size][size=' + str(int(min(self.view_info.width, self.view_info.height) / 20)) + ']\n\nSwipe to move the tiles. When two tiles with the same number touch, they merge into one. Get to the 2048 tile and reach a high score!\nBased by Gabriele Cirulli original game :)[/size][size=' + str(int(min(self.view_info.width, self.view_info.height) / 30)) + ']\n\n* * *\n(c) Anton Bezdolny, 2020 / ver. 2.0 /[/size]'
         self.view_new.size = [self.board.width, self.board.width * 0.75]
         self.view_gameover.size = [self.board.width, self.board.width * 0.75]
         self.view_update.size = [self.board.width, self.board.width * 0.75]
@@ -469,5 +476,4 @@ class Game2048App(App):
 if __name__ == '__main__':
     if platform in ['win', 'linux', 'mac']:  # desktop
         kivy.resources.resource_add_path(resourcePath())
-    #Window.fullscreen = 'auto'
     Game2048App().run()

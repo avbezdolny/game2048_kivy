@@ -4,9 +4,9 @@ block_cipher = None
 
 
 a = Analysis(['main.py'],
-             pathex=['C:\\Projects\\kivyframework\\2048_kivy'],
+             pathex=['C:\\Users\\avbez\\Desktop\\2048_kivy'],
              binaries=[],
-             datas=[('game2048.kv', '.'), ('Rubik.ttf', '.'), ('click.wav', '.'), ('popup.wav', '.'), ('data/*.png', 'data')],
+             datas=[('game2048.kv', '.'), ('Rubik.ttf', '.'), ('click.wav', '.'), ('move.wav', '.'), ('popup.wav', '.'), ('data/*.png', 'data'), ('data/*.atlas', 'data')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -17,7 +17,7 @@ a = Analysis(['main.py'],
              noarchive=False)
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
-exe = EXE(pyz, Tree('C:\\Projects\\kivyframework\\2048_kivy'),
+exe = EXE(pyz, Tree('C:\\Users\\avbez\\Desktop\\2048_kivy'),
           a.scripts,
           a.binaries,
           a.zipfiles,
@@ -29,4 +29,4 @@ exe = EXE(pyz, Tree('C:\\Projects\\kivyframework\\2048_kivy'),
           strip=False,
           upx=True,
           runtime_tmpdir=None,
-          console=False, icon='C:\\Projects\\kivyframework\\2048_kivy\\game2048.ico' )
+          console=False, icon='C:\\Users\\avbez\\Desktop\\2048_kivy\\game2048.ico' )
