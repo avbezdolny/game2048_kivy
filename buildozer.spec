@@ -28,15 +28,15 @@ source.include_patterns = data/*.*
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 2.1
+version = 2.2
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
 # version.filename = %(source.dir)s/main.py
 
 # (list) Application requirements
-# comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy==master
+# comma seperated e.g. requirements = sqlite3,kivy
+requirements = python3,kivy==1.11.1
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -51,7 +51,7 @@ presplash.filename = %(source.dir)s/data/presplash.png
 # (str) Icon of the application
 icon.filename = %(source.dir)s/data/icon.png
 
-# (str) Supported orientation (one of landscape, sensorLandscape, portrait or all)
+# (str) Supported orientation (one of landscape, portrait or all)
 orientation = all
 
 # (list) List of service to declare
@@ -68,7 +68,7 @@ orientation = all
 osx.python_version = 3
 
 # Kivy version to use
-osx.kivy_version = 1.9.1
+osx.kivy_version = 1.10.1
 
 #
 # Android specific
@@ -87,29 +87,26 @@ android.presplash_color = #000000
 # (list) Permissions
 #android.permissions = INTERNET
 
-# (int) Target Android API, should be as high as possible.
-#android.api = 27
+# (int) Android API to use
+android.api = 27
 
-# (int) Minimum API your APK will support.
-#android.minapi = 21
+# (int) Minimum API required
+android.minapi = 21
 
 # (int) Android SDK version to use
-#android.sdk = 20
+android.sdk = 28
 
 # (str) Android NDK version to use
-#android.ndk = 17c
-
-# (int) Android NDK API to use. This is the minimum API your app will support, it should usually match android.minapi.
-#android.ndk_api = 21
+#android.ndk = 9c
 
 # (bool) Use --private data storage (True) or --dir public storage (False)
 #android.private_storage = True
 
 # (str) Android NDK directory (if empty, it will be automatically downloaded.)
-#android.ndk_path =
+android.ndk_path = /home/kivy/Android/android-ndk-r17c/
 
 # (str) Android SDK directory (if empty, it will be automatically downloaded.)
-#android.sdk_path =
+android.sdk_path = /home/kivy/Android/android-sdk-28/
 
 # (str) ANT directory (if empty, it will be automatically downloaded.)
 #android.ant_path =
@@ -118,12 +115,6 @@ android.presplash_color = #000000
 # This can be useful to avoid excess Internet downloads or save time
 # when an update is due and you just want to test/build your package
 # android.skip_update = False
-
-# (bool) If True, then automatically accept SDK license
-# agreements. This is intended for automation only. If set to False,
-# the default, you will be shown the license when first running
-# buildozer.
-android.accept_sdk_license = True
 
 # (str) Android entry point, default is ok for Kivy-based app
 #android.entrypoint = org.renpy.android.PythonActivity
@@ -158,8 +149,8 @@ android.accept_sdk_license = True
 # (list) Java classes to add as activities to the manifest.
 #android.add_activites = com.example.ExampleActivity
 
-# (str) python-for-android branch to use, defaults to master
-#p4a.branch = master
+# (str) python-for-android branch to use, defaults to stable
+#p4a.branch = stable
 
 # (str) OUYA Console category. Should be one of GAME or APP
 # If you leave this blank, OUYA support will not be enabled
@@ -174,7 +165,7 @@ android.accept_sdk_license = True
 # (str) launchMode to set for the main activity
 #android.manifest.launch_mode = standard
 
-# (list) Android additional libraries to copy into libs/armeabi
+# (list) Android additionnal libraries to copy into libs/armeabi
 #android.add_libs_armeabi = libs/android/*.so
 #android.add_libs_armeabi_v7a = libs/android-v7/*.so
 #android.add_libs_x86 = libs/android-x86/*.so
@@ -198,14 +189,14 @@ android.accept_sdk_license = True
 #android.copy_libs = 1
 
 # (str) The Android arch to build for, choices: armeabi-v7a, arm64-v8a, x86
-android.arch = arm64-v8a
+android.arch = armeabi-v7a
 
 #
 # Python for android (p4a) specific
 #
 
 # (str) python-for-android git clone directory (if empty, it will be automatically cloned from github)
-#p4a.source_dir =
+p4a.source_dir = /home/kivy/Repos/python-for-android/
 
 # (str) The directory in which python-for-android should look for your own build recipes (if any)
 #p4a.local_recipes =
@@ -226,16 +217,6 @@ android.arch = arm64-v8a
 
 # (str) Path to a custom kivy-ios folder
 #ios.kivy_ios_dir = ../kivy-ios
-# Alternately, specify the URL and branch of a git checkout:
-ios.kivy_ios_url = https://github.com/kivy/kivy-ios
-ios.kivy_ios_branch = master
-
-# Another platform dependency: ios-deploy
-# Uncomment to use a custom checkout
-#ios.ios_deploy_dir = ../ios_deploy
-# Or specify URL and branch
-ios.ios_deploy_url = https://github.com/phonegap/ios-deploy
-ios.ios_deploy_branch = 1.7.0
 
 # (str) Name of the certificate to use for signing the debug version
 # Get a list of available identities: buildozer ios list_identities

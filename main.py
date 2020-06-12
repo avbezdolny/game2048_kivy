@@ -146,7 +146,6 @@ class Game2048App(App):
     is_sound = BooleanProperty(True)
     sound_click = None
     sound_popup = None
-    sound_move  = None
 
     def on_start(self):
         self.board = self.root.ids.board
@@ -174,7 +173,7 @@ class Game2048App(App):
 
         # info dialog
         self.view_info = ModalView(size_hint=(None, None), size=[self.board.width, self.board.width * 0.75], auto_dismiss=False, background = 'data/background.png')
-        self.view_info.add_widget(ViewInfo(text='[size=' + str(int(min(self.view_info.width, self.view_info.height) / 14)) + ']GAME 2048[/size][size=' + str(int(min(self.view_info.width, self.view_info.height) / 20)) + ']\n\nSwipe to move the tiles. When two tiles with the same number touch, they merge into one. Get to the 2048 tile and reach a high score!\nBased by Gabriele Cirulli original game :)[/size][size=' + str(int(min(self.view_info.width, self.view_info.height) / 30)) + ']\n\n* * *\n(c) Anton Bezdolny, 2020 / ver. 2.1 /[/size]'))
+        self.view_info.add_widget(ViewInfo(text='[size=' + str(int(min(self.view_info.width, self.view_info.height) / 14)) + ']GAME 2048[/size][size=' + str(int(min(self.view_info.width, self.view_info.height) / 20)) + ']\n\nSwipe to move the tiles. When two tiles with the same number touch, they merge into one. Get to the 2048 tile and reach a high score!\nBased by Gabriele Cirulli original game :)[/size][size=' + str(int(min(self.view_info.width, self.view_info.height) / 30)) + ']\n\n* * *\n(c) Anton Bezdolny, 2020 / ver. 2.2 /[/size]'))
 
         # new game dialog
         self.view_new = ModalView(size_hint=(None, None), size=[self.board.width, self.board.width * 0.75], auto_dismiss=False, background = 'data/background.png')
@@ -456,7 +455,7 @@ class Game2048App(App):
         # dialog's
         self.view_exit.size = [self.board.width, self.board.width * 0.75]
         self.view_info.size = [self.board.width, self.board.width * 0.75]
-        self.view_info.children[0].text = '[size=' + str(int(min(self.view_info.width, self.view_info.height) / 14)) + ']GAME 2048[/size][size=' + str(int(min(self.view_info.width, self.view_info.height) / 20)) + ']\n\nSwipe to move the tiles. When two tiles with the same number touch, they merge into one. Get to the 2048 tile and reach a high score!\nBased by Gabriele Cirulli original game :)[/size][size=' + str(int(min(self.view_info.width, self.view_info.height) / 30)) + ']\n\n* * *\n(c) Anton Bezdolny, 2020 / ver. 2.1 /[/size]'
+        self.view_info.children[0].text = '[size=' + str(int(min(self.view_info.width, self.view_info.height) / 14)) + ']GAME 2048[/size][size=' + str(int(min(self.view_info.width, self.view_info.height) / 20)) + ']\n\nSwipe to move the tiles. When two tiles with the same number touch, they merge into one. Get to the 2048 tile and reach a high score!\nBased by Gabriele Cirulli original game :)[/size][size=' + str(int(min(self.view_info.width, self.view_info.height) / 30)) + ']\n\n* * *\n(c) Anton Bezdolny, 2020 / ver. 2.2 /[/size]'
         self.view_new.size = [self.board.width, self.board.width * 0.75]
         self.view_gameover.size = [self.board.width, self.board.width * 0.75]
         self.view_update.size = [self.board.width, self.board.width * 0.75]
